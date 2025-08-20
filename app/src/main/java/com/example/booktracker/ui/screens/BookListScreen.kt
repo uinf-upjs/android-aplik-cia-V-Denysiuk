@@ -1,10 +1,7 @@
 package com.example.booktracker.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
@@ -53,7 +50,7 @@ fun BookCard(book: Book) {
         modifier = Modifier.fillMaxSize(),
         elevation = CardDefaults.cardElevation(AppSize.cardElevation)
     ) {
-        androidx.compose.foundation.layout.Column(
+        Column(
             modifier = Modifier.padding(AppPadding.medium)
         ) {
             Text(text = book.title, style = MaterialTheme.typography.titleMedium)

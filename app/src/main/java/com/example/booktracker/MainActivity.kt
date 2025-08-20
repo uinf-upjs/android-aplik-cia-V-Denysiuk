@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                         BookListScreen(navController)
                     }
                     composable(Screen.AddBook.route) {
-                        AddBookScreen()
+                        AddBookScreen(navController)
                     }
                 }
             }
