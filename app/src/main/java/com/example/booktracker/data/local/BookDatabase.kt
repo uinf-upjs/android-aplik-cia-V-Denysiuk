@@ -1,12 +1,9 @@
 package com.example.booktracker.data.local
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 @Database(entities = [BookEntity::class], version = 1, exportSchema = false)
 abstract class BookDatabase : RoomDatabase() {
@@ -21,7 +18,10 @@ abstract class BookDatabase : RoomDatabase() {
                     context.applicationContext,
                     BookDatabase::class.java,
                     "book_database"
-                ).addCallback(BookDatabaseCallback(context, scope)).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .addCallback(BookDatabaseCallback(context, scope))
+                    .build()
                 INSTANCE = instance
                 instance
             }

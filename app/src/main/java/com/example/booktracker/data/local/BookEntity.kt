@@ -9,5 +9,7 @@ data class BookEntity(
     val title: String,
     val author: String,
     val country: String,
-    val year: Int
+    val year: String,
+    val language: String,
+    val pages: String
 )

@@ -9,25 +9,32 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavController
-import com.example.booktracker.ui.theme.AppPadding
+import com.example.booktracker.ui.theme.*
 import androidx.compose.ui.text.input.*
-import com.example.booktracker.ui.theme.AppTextSize
+import com.example.booktracker.data.local.BookEntity
+import com.example.booktracker.viewmodel.BookViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddBookScreen(navController: NavController) {
-    //локальні поля вводу
+fun AddBookScreen(navController: NavController, viewModel: BookViewModel) {
     var title by remember { mutableStateOf("") }
     var author by remember { mutableStateOf("") }
     var country by remember { mutableStateOf("") }
     var year by remember { mutableStateOf("") }
+    var language by remember { mutableStateOf("") }
+    var pages by remember { mutableStateOf("") }
+
+    val isSaveEnabled = title.isNotBlank()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("ADD BOOK",
-                    style = TextStyle(fontSize = AppTextSize.title)
-                ) },
+                title = {
+                    Text(
+                        "ADD BOOK",
+                        style = TextStyle(fontSize = AppTextSize.title)
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -46,7 +53,7 @@ fun AddBookScreen(navController: NavController) {
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text("Title") },
+                label = { Text("Title *") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(fontSize = AppTextSize.medium)
             )
@@ -72,18 +79,44 @@ fun AddBookScreen(navController: NavController) {
                 textStyle = TextStyle(fontSize = AppTextSize.medium),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
+            OutlinedTextField(
+                value = language,
+                onValueChange = { country = it },
+                label = { Text("Language") },
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = AppTextSize.medium)
+            )
+            OutlinedTextField(
+                value = pages,
+                onValueChange = { year = it },
+                label = { Text("Pages") },
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = AppTextSize.medium),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
 
             Spacer(modifier = Modifier.height(AppPadding.large))
 
             Button(
                 onClick = {
-                    // тут потім зробити room, зараз лише повернення на головний екран
+                    val newBook = BookEntity(
+                        title = title,
+                        author = if (author.isNotBlank()) author else "Unknown",
+                        country = if (country.isNotBlank()) country else "Unknown",
+                        year = if (year.isNotBlank()) year else "Unknown",
+                        language = if(language.isNotBlank()) language else "Unknown",
+                        pages = if (pages.isNotBlank()) pages else "Unknown"
+                    )
+                    viewModel.insertBook(newBook)
                     navController.popBackStack()
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = isSaveEnabled
             ) {
-                Text("Save",
-                    style = TextStyle(fontSize = AppTextSize.large))
+                Text(
+                    "Save",
+                    style = TextStyle(fontSize = AppTextSize.large)
+                )
             }
         }
     }

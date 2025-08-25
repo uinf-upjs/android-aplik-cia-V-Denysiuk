@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                         BookListScreen(navController, viewModel)
                     }
                     composable(Screen.AddBook.route) {
-                        AddBookScreen(navController)
+                        AddBookScreen(navController, viewModel)
                     }
                 }
             }
