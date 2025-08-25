@@ -6,22 +6,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.booktracker.Book
 import com.example.booktracker.Screen
+import com.example.booktracker.data.local.BookEntity
 import com.example.booktracker.ui.theme.AppPadding
 import com.example.booktracker.ui.theme.AppSize
+import com.example.booktracker.viewmodel.BookViewModel
 
 @Composable
-fun BookListScreen(navController: NavController) {
-    val books = listOf(
-        Book("The Divine Comedy", "Dante Alighieri", "Italy", 1315),
-        Book("Pride and Prejudice", "Jane Austen", "United Kingdom", 1813),
-        Book("Don Quijote De La Mancha", "Miguel de Cervantes", "Spain", 1610),
-        Book("Iliad", "Homer", "Greece", -735),
-        Book("Hamlet", "William Shakespeare", "England", 1603)
-    )
+fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
+    val books by viewModel.books.collectAsState()
 
     Scaffold(
         floatingActionButton = {
@@ -44,10 +41,11 @@ fun BookListScreen(navController: NavController) {
     }
 }
 
+
 @Composable
-fun BookCard(book: Book) {
+fun BookCard(book: BookEntity) {
     Card(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(AppSize.cardElevation)
     ) {
         Column(
@@ -60,3 +58,4 @@ fun BookCard(book: Book) {
         }
     }
 }
+

@@ -7,9 +7,11 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavController
 import com.example.booktracker.ui.theme.AppPadding
 import androidx.compose.ui.text.input.*
+import com.example.booktracker.ui.theme.AppTextSize
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +25,9 @@ fun AddBookScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Add book") },
+                title = { Text("ADD BOOK",
+                    style = TextStyle(fontSize = AppTextSize.title)
+                ) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -43,27 +47,33 @@ fun AddBookScreen(navController: NavController) {
                 value = title,
                 onValueChange = { title = it },
                 label = { Text("Title") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = AppTextSize.medium)
             )
             OutlinedTextField(
                 value = author,
                 onValueChange = { author = it },
                 label = { Text("Author") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = AppTextSize.medium)
             )
             OutlinedTextField(
                 value = country,
                 onValueChange = { country = it },
                 label = { Text("Country") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = AppTextSize.medium)
             )
             OutlinedTextField(
                 value = year,
                 onValueChange = { year = it },
                 label = { Text("Year") },
                 modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = AppTextSize.medium),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
+
+            Spacer(modifier = Modifier.height(AppPadding.large))
 
             Button(
                 onClick = {
@@ -72,7 +82,8 @@ fun AddBookScreen(navController: NavController) {
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Save")
+                Text("Save",
+                    style = TextStyle(fontSize = AppTextSize.large))
             }
         }
     }
