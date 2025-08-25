@@ -3,10 +3,10 @@ package com.example.booktracker.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.navigation.NavController
 import com.example.booktracker.Screen
 import com.example.booktracker.data.local.BookEntity
@@ -49,7 +49,16 @@ fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
                 verticalArrangement = Arrangement.spacedBy(AppPadding.small)
             ) {
                 items(filteredBooks) { book ->
-                    BookCard(book)
+                    BookCard(
+                        book,
+                        onEditClick = { selectedBook ->
+                            navController.navigate(Screen.EditBook.createRoute(selectedBook.id))
+
+                        },
+                        onDeleteClick = { selectedBook ->
+                            viewModel.deleteBookById(selectedBook.id)
+                        }
+                    )
                 }
             }
         }
@@ -57,7 +66,13 @@ fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
 }
 
 @Composable
-fun BookCard(book: BookEntity) {
+fun BookCard(
+    book: BookEntity,
+    onEditClick: (BookEntity) -> Unit,
+    onDeleteClick: (BookEntity) -> Unit
+) {
+    var showDialog by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(AppSize.cardElevation)
@@ -79,7 +94,54 @@ fun BookCard(book: BookEntity) {
             )
             Text(
                 text = "Year: ${book.year}",
-                style = MaterialTheme.typography.bodySmall)
+                style = MaterialTheme.typography.bodySmall
+            )
+
+            Spacer(modifier = Modifier.height(AppPadding.small))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { onEditClick(book) }) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit Book",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+
+                IconButton(onClick = { showDialog = true }) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete Book",
+                        tint = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+
+            if (showDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    title = { Text("Are you sure?") },
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                onDeleteClick(book)
+                                showDialog = false
+                            }
+                        ) {
+                            Text("Yes")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showDialog = false }) {
+                            Text("No")
+                        }
+                    }
+                )
+            }
         }
     }
 }

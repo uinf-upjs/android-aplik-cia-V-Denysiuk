@@ -1,18 +1,15 @@
 package com.example.booktracker
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.activity.*
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.booktracker.ui.screens.BookListScreen
-import com.example.booktracker.ui.screens.AddBookScreen
+import androidx.navigation.NavType
+import androidx.navigation.compose.*
+import androidx.navigation.navArgument
+import com.example.booktracker.ui.screens.*
 import com.example.booktracker.ui.theme.BookTrackerTheme
-import com.example.booktracker.viewmodel.BookViewModel
-import com.example.booktracker.viewmodel.BookViewModelFactory
+import com.example.booktracker.viewmodel.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +32,16 @@ class MainActivity : ComponentActivity() {
                     composable(Screen.AddBook.route) {
                         AddBookScreen(navController, viewModel)
                     }
+                    composable(
+                        Screen.EditBook.route,
+                        listOf(navArgument("bookId") { type = NavType.LongType })
+                    ) { backStackEntry ->
+                        val bookId = backStackEntry.arguments?.getLong("bookId") ?: 0L
+                        EditBookScreen(navController, viewModel, bookId)
+                    }
                 }
             }
         }
     }
 }
+

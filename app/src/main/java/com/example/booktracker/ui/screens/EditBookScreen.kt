@@ -1,22 +1,25 @@
 package com.example.booktracker.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.*
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.*
 import androidx.navigation.NavController
-import com.example.booktracker.ui.theme.*
-import androidx.compose.ui.text.input.*
-import com.example.booktracker.data.local.BookEntity
+import com.example.booktracker.ui.theme.AppPadding
 import com.example.booktracker.viewmodel.BookViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddBookScreen(navController: NavController, viewModel: BookViewModel) {
+fun EditBookScreen(
+    navController: NavController,
+    viewModel: BookViewModel,
+    bookId: Long
+) {
+    val book = viewModel.getBookById(bookId).collectAsState(initial = null).value
+
     var title by remember { mutableStateOf("") }
     var author by remember { mutableStateOf("") }
     var country by remember { mutableStateOf("") }
@@ -24,17 +27,23 @@ fun AddBookScreen(navController: NavController, viewModel: BookViewModel) {
     var language by remember { mutableStateOf("") }
     var pages by remember { mutableStateOf("") }
 
-    val isSaveEnabled = title.isNotBlank()
+    LaunchedEffect(book) {
+        book?.let {
+            title = it.title
+            author = it.author
+            country = it.country
+            year = it.year
+            language = it.language
+            pages = it.pages
+        }
+    }
+
+    val isUpdateEnabled = title.isNotBlank()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(
-                        "ADD BOOK",
-                        style = TextStyle(fontSize = AppTextSize.title)
-                    )
-                },
+                title = { Text("EDIT BOOK") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -54,71 +63,59 @@ fun AddBookScreen(navController: NavController, viewModel: BookViewModel) {
                 value = title,
                 onValueChange = { title = it },
                 label = { Text("Title *") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontSize = AppTextSize.medium)
+                modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = author,
                 onValueChange = { author = it },
                 label = { Text("Author") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontSize = AppTextSize.medium)
+                modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = country,
                 onValueChange = { country = it },
                 label = { Text("Country") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontSize = AppTextSize.medium)
+                modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = year,
                 onValueChange = { year = it },
                 label = { Text("Year") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontSize = AppTextSize.medium),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = language,
                 onValueChange = { language = it },
                 label = { Text("Language") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontSize = AppTextSize.medium)
+                modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = pages,
                 onValueChange = { pages = it },
                 label = { Text("Pages") },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontSize = AppTextSize.medium),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                modifier = Modifier.fillMaxWidth()
             )
-
-            Spacer(modifier = Modifier.height(AppPadding.large))
 
             Button(
                 onClick = {
-                    val newBook = BookEntity(
-                        title = title,
-                        author = if (author.isNotBlank()) author else "Unknown",
-                        country = if (country.isNotBlank()) country else "Unknown",
-                        year = if (year.isNotBlank()) year else "Unknown",
-                        language = if(language.isNotBlank()) language else "Unknown",
-                        pages = if (pages.isNotBlank()) pages else "Unknown"
-                    )
-                    viewModel.insertBook(newBook)
-                    navController.popBackStack()
+                    if (book != null) {
+                        val updatedBook = book.copy(
+                            title = title,
+                            author = author.ifBlank { "Unknown" },
+                            country = country.ifBlank { "Unknown" },
+                            year = year.ifBlank { "Unknown" },
+                            language = language.ifBlank { "Unknown" },
+                            pages = pages.ifBlank { "Unknown" }
+                        )
+                        viewModel.updateBook(updatedBook)
+                        navController.popBackStack()
+                    }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = isSaveEnabled
+                enabled = isUpdateEnabled
             ) {
-                Text(
-                    "Save",
-                    style = TextStyle(fontSize = AppTextSize.large)
-                )
+                Text("Update")
             }
         }
     }
 }
-
