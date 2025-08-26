@@ -19,6 +19,7 @@ import com.example.booktracker.viewmodel.book.BookViewModel
 import com.example.booktracker.viewmodel.review.ReviewViewModel
 import com.example.booktracker.R
 import com.example.booktracker.data.local.review.ReviewEntity
+import com.example.booktracker.ui.screens.components.WikipediaLink
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -113,7 +114,13 @@ fun BookDetailScreen(
                 ) {
                     Text(if (isRead) stringResource(R.string.mark_as_unread) else stringResource(R.string.mark_as_read))
                 }
+
+                Spacer(modifier = Modifier.height(AppPadding.medium))
+                book!!.link?.let { url ->
+                    WikipediaLink(url)
+                }
             }
+
         } else {
             Box(
                 modifier = Modifier.fillMaxSize(),

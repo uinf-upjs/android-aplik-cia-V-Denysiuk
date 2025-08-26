@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = Screen.BookList.route,
-                        modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
+                       modifier = Modifier.padding(paddingValues)
                     ) {
                         //bottom navigacia
                         composable(BottomNavItem.Books.route) {
@@ -79,7 +79,9 @@ class MainActivity : ComponentActivity() {
                             AddBookScreen(navController, bookViewModel)
                         }
                         composable(BottomNavItem.Profile.route) {
-                            //ProfileScreen(navController, bookViewModel, reviewViewModel)
+                            ProfileScreen(
+                                //navController,
+                                bookViewModel, reviewViewModel)
                         }
 
 
@@ -117,7 +119,6 @@ class MainActivity : ComponentActivity() {
                                 navController, bookId, bookViewModel, reviewViewModel
                             )
                         }
-
                     }
                 }
             }

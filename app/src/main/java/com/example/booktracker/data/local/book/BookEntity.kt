@@ -12,5 +12,6 @@ data class BookEntity(
     val year: String,
     val language: String,
     val pages: String,
+    val link: String? = null
 
 )
