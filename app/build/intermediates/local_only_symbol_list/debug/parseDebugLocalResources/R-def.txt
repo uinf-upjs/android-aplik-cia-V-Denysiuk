@@ -17,6 +17,7 @@ string app_name
 string author_label
 string back
 string book_detail_title
+string book_not_found
 string country_label
 string delete
 string delete_dialog_title
@@ -24,7 +25,10 @@ string edit_book_title
 string edit_review
 string editing_review_for
 string language_label
+string mark_as_read
+string mark_as_unread
 string no
+string no_read_books
 string pages_label
 string pages_progress
 string progress_label

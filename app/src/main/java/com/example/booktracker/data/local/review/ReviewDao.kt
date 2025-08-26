@@ -13,4 +13,9 @@ interface ReviewDao {
 
     @Update
     suspend fun update(review: ReviewEntity)
+
+    @Query("SELECT * FROM reviews")
+    fun getAllReviews(): Flow<List<ReviewEntity>>
+
+
 }

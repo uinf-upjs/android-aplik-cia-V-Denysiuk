@@ -1,13 +1,10 @@
 package com.example.booktracker.ui.screens
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,6 +18,7 @@ import com.example.booktracker.ui.theme.*
 import com.example.booktracker.viewmodel.book.BookViewModel
 import com.example.booktracker.viewmodel.review.ReviewViewModel
 import com.example.booktracker.R
+import com.example.booktracker.data.local.review.ReviewEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,6 +31,13 @@ fun BookDetailScreen(
     val book by bookViewModel.getBookById(bookId).collectAsState(initial = null)
     val review by reviewViewModel.getReviewForBook(bookId).collectAsState(initial = null)
     val scrollState = rememberScrollState()
+
+    var isRead by remember { mutableStateOf(review?.isRead ?: false) }
+
+
+    LaunchedEffect(review) {
+        review?.let { isRead = it.isRead }
+    }
 
     Scaffold(
         topBar = {
@@ -83,6 +88,30 @@ fun BookDetailScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(stringResource(R.string.edit_review))
+                }
+                Button(
+                    onClick = {
+                        if (review != null) {
+                            reviewViewModel.markAsRead(review!!, !isRead)
+                            isRead = !isRead
+                        } else {
+                            val newReview = ReviewEntity(
+                                bookId = book!!.id,
+                                rating = 0,
+                                reviewText = "",
+                                pagesRead = 0,
+                                isRead = true
+                            )
+                            reviewViewModel.saveReview(newReview)
+                            isRead = true
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isRead) Color(0xFF4CAF50) else MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text(if (isRead) stringResource(R.string.mark_as_unread) else stringResource(R.string.mark_as_read))
                 }
             }
         } else {

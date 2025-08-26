@@ -8,4 +8,6 @@ class ReviewRepository(private val dao: ReviewDao) {
     fun getReviewForBook(bookId: Long): Flow<ReviewEntity?> = dao.getReviewForBook(bookId)
     suspend fun insertReview(review: ReviewEntity) = dao.insert(review)
     suspend fun updateReview(review: ReviewEntity) = dao.update(review)
+    val allReviews: Flow<List<ReviewEntity>> = dao.getAllReviews()
+
 }

@@ -19,4 +19,14 @@ class ReviewViewModel(private val repo: ReviewRepository) : ViewModel() {
             else repo.updateReview(review)
         }
     }
+
+    fun markAsRead(review: ReviewEntity, isRead: Boolean) {
+        viewModelScope.launch {
+            repo.updateReview(review.copy(isRead = isRead))
+        }
+    }
+
+    val allReviews: Flow<List<ReviewEntity>> = repo.allReviews
+
+
 }

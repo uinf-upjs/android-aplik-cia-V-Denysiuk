@@ -18,5 +18,7 @@ data class ReviewEntity(
     val bookId: Long,
     val rating: Int = 0,
     val reviewText: String = "",
-    val pagesRead: Int = 0
+    val pagesRead: Int = 0,
+    var isRead: Boolean = false
+
 )

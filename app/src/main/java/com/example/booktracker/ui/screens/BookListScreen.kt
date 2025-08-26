@@ -1,6 +1,5 @@
 package com.example.booktracker.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.icons.Icons
@@ -12,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.booktracker.R
 import com.example.booktracker.Screen
-import com.example.booktracker.data.local.book.BookEntity
+import com.example.booktracker.ui.screens.components.BookCard
 import com.example.booktracker.ui.theme.*
 import com.example.booktracker.viewmodel.book.BookViewModel
 
@@ -41,118 +40,53 @@ fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
-                label = { Text(stringResource(R.string.search_hint))  },
+                label = { Text(stringResource(R.string.search_hint)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(AppPadding.medium))
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(AppPadding.small)
-            ) {
-                items(filteredBooks) { book ->
-                    BookCard(
-                        book,
-                        onCardClick = {selectedBook ->
-                            navController.navigate(Screen.BookDetail.createRoute(selectedBook.id))
-                        },
-                        onEditClick = { selectedBook ->
-                            navController.navigate(Screen.EditBook.createRoute(selectedBook.id))
-
-                        },
-                        onDeleteClick = { selectedBook ->
-                            viewModel.deleteBookById(selectedBook.id)
-                        }
+            if (filteredBooks.isEmpty() && searchQuery.isNotBlank()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(AppPadding.medium),
+                    verticalArrangement = Arrangement.spacedBy(AppPadding.small)
+                ) {
+                    Text(
+                        text = stringResource(R.string.book_not_found),
+                        style = MaterialTheme.typography.bodyMedium
                     )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun BookCard(
-    book: BookEntity,
-    onEditClick: (BookEntity) -> Unit,
-    onDeleteClick: (BookEntity) -> Unit,
-    onCardClick: (BookEntity) -> Unit
-) {
-    var showDialog by remember { mutableStateOf(false) }
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onCardClick(book) },
-        elevation = CardDefaults.cardElevation(AppSize.cardElevation)
-    ) {
-        Column(
-            modifier = Modifier.padding(AppPadding.medium)
-        ) {
-            Text(
-                text = book.title,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = "${stringResource(R.string.author_label)}: ${book.author}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "${stringResource(R.string.country_label)}: ${book.country}",
-                style = MaterialTheme.typography.bodySmall
-            )
-            Text(
-                text = "${stringResource(R.string.year_label)}: ${book.year}",
-                style = MaterialTheme.typography.bodySmall
-            )
-
-            Spacer(modifier = Modifier.height(AppPadding.small))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = { onEditClick(book) }) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = stringResource(R.string.update),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-
-                IconButton(onClick = { showDialog = true }) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = stringResource(R.string.delete),
-                        tint = MaterialTheme.colorScheme.error
-                    )
-                }
-            }
-
-            if (showDialog) {
-                AlertDialog(
-                    onDismissRequest = { showDialog = false },
-                    title = { Text(stringResource(R.string.delete_dialog_title)) },
-                    confirmButton = {
-                        TextButton(
-                            onClick = {
-                                onDeleteClick(book)
-                                showDialog = false
-                            }
-                        ) {
-                            Text(stringResource(R.string.yes))
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = { showDialog = false }) {
-                            Text(stringResource(R.string.no))
-                        }
+                    Button(
+                        onClick = { navController.navigate(Screen.AddBook.route) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(R.string.add_book))
                     }
-                )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(AppPadding.small)
+                ) {
+                    items(filteredBooks) { book ->
+                        BookCard(
+                            book,
+                            onCardClick = { selectedBook ->
+                                navController.navigate(Screen.BookDetail.createRoute(selectedBook.id))
+                            },
+                            onEditClick = { selectedBook ->
+                                navController.navigate(Screen.EditBook.createRoute(selectedBook.id))
+
+                            },
+                            onDeleteClick = { selectedBook ->
+                                viewModel.deleteBookById(selectedBook.id)
+                            }
+                        )
+                    }
+                }
             }
         }
     }
 }
-
 

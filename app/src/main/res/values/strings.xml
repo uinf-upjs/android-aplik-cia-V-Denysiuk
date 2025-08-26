@@ -30,9 +30,15 @@
     <string name="progress_label">Progress: %1$d%%</string>
     <string name="editing_review_for">Editing review for: %1$s</string>
     <string name="pages_progress">%1$d / %2$d pages</string>
+    <string name="book_not_found">Oh.. Sorry.. Couldn’t find this book. Do you want add it to list?</string>
 
 
     <string name="unknown">Unknown</string>
     <string name="delete_dialog_title">Are you sure?</string>
+
+    <string name="mark_as_read">Mark as Read</string>
+    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="no_read_books">No read books found</string>
+
 </resources>
 

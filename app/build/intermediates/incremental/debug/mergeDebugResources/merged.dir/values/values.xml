@@ -113,6 +113,7 @@
     <string name="author_label">Author</string>
     <string name="back">Back</string>
     <string name="book_detail_title">Book Detail</string>
+    <string name="book_not_found">Oh.. Sorry.. Couldn’t find this book. Do you want add it to list?</string>
     <string name="call_notification_answer_action">Answer</string>
     <string name="call_notification_answer_video_action">Video</string>
     <string name="call_notification_decline_action">Decline</string>
@@ -194,8 +195,11 @@
     <string name="m3c_time_picker_pm">PM</string>
     <string name="m3c_tooltip_long_press_label">Show tooltip</string>
     <string name="m3c_tooltip_pane_description">Tooltip</string>
+    <string name="mark_as_read">Mark as Read</string>
+    <string name="mark_as_unread">Mark as Unread</string>
     <string name="navigation_menu">"Navigation menu"</string>
     <string name="no">No</string>
+    <string name="no_read_books">No read books found</string>
     <string name="not_selected">Not selected</string>
     <string name="pages_label">Pages</string>
     <string name="pages_progress">%1$d / %2$d pages</string>
