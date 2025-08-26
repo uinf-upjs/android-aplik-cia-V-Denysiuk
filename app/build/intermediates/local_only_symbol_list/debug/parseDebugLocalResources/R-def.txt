@@ -9,6 +9,7 @@ color teal_700
 color white
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_notification
 mipmap ic_launcher
 mipmap ic_launcher_round
 string add_book
@@ -24,6 +25,7 @@ string delete_dialog_title
 string edit_book_title
 string edit_review
 string editing_review_for
+string finished_book_notification
 string language_label
 string mark_as_read
 string mark_as_unread
@@ -40,7 +42,6 @@ string review_label
 string review_saved
 string save
 string search_hint
-string stat_avg_rating
 string stat_pages_read
 string stat_read_books
 string stat_total_books
@@ -49,7 +50,6 @@ string unknown
 string update
 string wikipedia_link
 string year_label
-string yearly_goal_progress
 string yes
 style Theme.BookTracker
 xml backup_rules

@@ -20,6 +20,7 @@
     <string name="edit_book_title">Edit Book</string>
     <string name="edit_review">Edit Review</string>
     <string name="editing_review_for">Editing review for: %1$s</string>
+    <string name="finished_book_notification">Congratulations! You have finished reading the book. Keep up the good work!</string>
     <string name="language_label">Language</string>
     <string name="mark_as_read">Mark as Read</string>
     <string name="mark_as_unread">Mark as Unread</string>
@@ -36,7 +37,6 @@
     <string name="review_saved">Review saved</string>
     <string name="save">Save</string>
     <string name="search_hint">Search by title</string>
-    <string name="stat_avg_rating">Average Rating</string>
     <string name="stat_pages_read">Pages Read</string>
     <string name="stat_read_books">Read Books</string>
     <string name="stat_total_books">Total Books</string>
@@ -45,7 +45,6 @@
     <string name="update">Update</string>
     <string name="wikipedia_link">Read more on Wikipedia</string>
     <string name="year_label">Year</string>
-    <string name="yearly_goal_progress">Yearly Goal Progress: %1$d / %2$d books</string>
     <string name="yes">Yes</string>
     <style name="Theme.BookTracker" parent="android:Theme.Material.Light.NoActionBar"/>
 </resources>

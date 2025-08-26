@@ -83,6 +83,7 @@ drawable ic_call_decline
 drawable ic_call_decline_low
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_notification
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -224,6 +225,7 @@ string dropdown_menu
 string edit_book_title
 string edit_review
 string editing_review_for
+string finished_book_notification
 string in_progress
 string indeterminate
 string language_label
@@ -303,7 +305,6 @@ string review_saved
 string save
 string search_hint
 string selected
-string stat_avg_rating
 string stat_pages_read
 string stat_read_books
 string stat_total_books
@@ -321,7 +322,6 @@ string unknown
 string update
 string wikipedia_link
 string year_label
-string yearly_goal_progress
 string yes
 style DialogWindowTheme
 style FloatingDialogTheme

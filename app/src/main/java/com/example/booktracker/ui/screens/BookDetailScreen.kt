@@ -1,5 +1,10 @@
 package com.example.booktracker.ui.screens
 
+import android.annotation.SuppressLint
+import android.app.*
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.*
@@ -11,15 +16,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import com.example.booktracker.Screen
+import com.example.booktracker.ui.screens.navigation.Screen
 import com.example.booktracker.ui.theme.*
 import com.example.booktracker.viewmodel.book.BookViewModel
 import com.example.booktracker.viewmodel.review.ReviewViewModel
 import com.example.booktracker.R
 import com.example.booktracker.data.local.review.ReviewEntity
 import com.example.booktracker.ui.screens.components.WikipediaLink
+
+private const val CHANNEL_ID = "book_notifications"
+private const val NOTIFICATION_ID = 1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +45,7 @@ fun BookDetailScreen(
     val book by bookViewModel.getBookById(bookId).collectAsState(initial = null)
     val review by reviewViewModel.getReviewForBook(bookId).collectAsState(initial = null)
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     var isRead by remember { mutableStateOf(review?.isRead ?: false) }
 
@@ -95,6 +109,21 @@ fun BookDetailScreen(
                         if (review != null) {
                             reviewViewModel.markAsRead(review!!, !isRead)
                             isRead = !isRead
+                            if (isRead) {
+                                if (ContextCompat.checkSelfPermission(
+                                        context,
+                                        android.Manifest.permission.POST_NOTIFICATIONS
+                                    ) == PackageManager.PERMISSION_GRANTED
+                                ) {
+                                    showBookFinishedNotification(context)
+                                } else {
+                                    ActivityCompat.requestPermissions(
+                                        context as Activity,
+                                        arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                                        1
+                                    )
+                                }
+                            }
                         } else {
                             val newReview = ReviewEntity(
                                 bookId = book!!.id,
@@ -151,4 +180,29 @@ fun AnimatedStarRatingDisplay(rating: Int) {
             )
         }
     }
+}
+
+@SuppressLint("MissingPermission")
+fun showBookFinishedNotification(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = "Book Notifications"
+        val descriptionText = "Notifications when user finishes books"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            description = descriptionText
+        }
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_notification)
+        .setContentTitle("BookTracker")
+        .setContentText(context.getString(R.string.finished_book_notification))
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setDefaults(NotificationCompat.DEFAULT_ALL)
+        .setAutoCancel(true)
+
+    NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build())
 }

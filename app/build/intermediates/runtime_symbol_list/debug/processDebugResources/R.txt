@@ -82,6 +82,7 @@ int drawable ic_call_decline 0x7f040005
 int drawable ic_call_decline_low 0x7f040006
 int drawable ic_launcher_background 0x7f040007
 int drawable ic_launcher_foreground 0x7f040008
+int drawable ic_notification 0x7f040017
 int drawable notification_action_background 0x7f040009
 int drawable notification_bg 0x7f04000a
 int drawable notification_bg_low 0x7f04000b
@@ -223,6 +224,7 @@ int string dropdown_menu 0x7f09000d
 int string edit_book_title 0x7f09005e
 int string edit_review 0x7f09005f
 int string editing_review_for 0x7f090060
+int string finished_book_notification 0x7f09007e
 int string in_progress 0x7f09000e
 int string indeterminate 0x7f09000f
 int string language_label 0x7f090061
@@ -302,7 +304,6 @@ int string review_saved 0x7f090067
 int string save 0x7f090068
 int string search_hint 0x7f090069
 int string selected 0x7f09004c
-int string stat_avg_rating 0x7f090078
 int string stat_pages_read 0x7f090079
 int string stat_read_books 0x7f09007a
 int string stat_total_books 0x7f09007b
@@ -320,7 +321,6 @@ int string unknown 0x7f09006b
 int string update 0x7f09006c
 int string wikipedia_link 0x7f09007d
 int string year_label 0x7f09006d
-int string yearly_goal_progress 0x7f09007c
 int string yes 0x7f09006e
 int style DialogWindowTheme 0x7f0a0000
 int style FloatingDialogTheme 0x7f0a0001

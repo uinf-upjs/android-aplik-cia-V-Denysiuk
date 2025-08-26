@@ -45,11 +45,10 @@
     <string name="stat_read_books">Read Books</string>
     <string name="stat_pages_read">Pages Read</string>
     <string name="stat_total_books">Total Books</string>
-    <string name="stat_avg_rating">Average Rating</string>
     <string name="recently_read_title">Recently Read</string>
     <string name="no_recent_books">No recent books read</string>
-    <string name="yearly_goal_progress">Yearly Goal Progress: %1$d / %2$d books</string>
     <string name="wikipedia_link">Read more on Wikipedia</string>
+    <string name="finished_book_notification">Congratulations! You have finished reading the book. Keep up the good work!</string>
 
 
 </resources>

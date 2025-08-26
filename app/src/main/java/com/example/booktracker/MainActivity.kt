@@ -11,13 +11,15 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.example.booktracker.ui.screens.*
-import com.example.booktracker.ui.screens.components.BottomNavItem
+import com.example.booktracker.ui.screens.navigation.BottomNavItem
+import com.example.booktracker.ui.screens.navigation.Screen
 import com.example.booktracker.ui.theme.BookTrackerTheme
 import com.example.booktracker.viewmodel.book.*
 import com.example.booktracker.viewmodel.review.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
@@ -32,6 +34,7 @@ class MainActivity : ComponentActivity() {
             ViewModelProvider(this, reviewViewModelFactory)[ReviewViewModel::class.java]
         setContent {
             BookTrackerTheme {
+                //navigacia
                 val navController = rememberNavController()
                 val bottomNavItems = listOf(
                     BottomNavItem.Books,
@@ -79,13 +82,11 @@ class MainActivity : ComponentActivity() {
                             AddBookScreen(navController, bookViewModel)
                         }
                         composable(BottomNavItem.Profile.route) {
-                            ProfileScreen(
-                                //navController,
-                                bookViewModel, reviewViewModel)
+                            ProfileScreen(bookViewModel, reviewViewModel)
                         }
 
 
-
+                        //navigacia
                         composable(Screen.BookList.route) {
                             BookListScreen(navController, bookViewModel)
                         }

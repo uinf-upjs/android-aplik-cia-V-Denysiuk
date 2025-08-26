@@ -2,41 +2,36 @@ package com.example.booktracker.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.booktracker.R
-import com.example.booktracker.Screen
+import com.example.booktracker.ui.screens.navigation.Screen
 import com.example.booktracker.ui.screens.components.BookCard
 import com.example.booktracker.ui.theme.*
 import com.example.booktracker.viewmodel.book.BookViewModel
 
 @Composable
 fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
+    // nacitavanie
     val books by viewModel.books.collectAsState()
+    //hladanie knih
     var searchQuery by remember { mutableStateOf("") }
 
     val filteredBooks = books.filter { book ->
         book.title.contains(searchQuery, ignoreCase = true)
     }
-
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(Screen.AddBook.route) }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_book))
-            }
-        }
-    ) { paddingValues ->
+    //struktura obrazovky
+    Scaffold() { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(AppPadding.medium)
         ) {
+            //field na hladanie khihy
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
@@ -65,6 +60,7 @@ fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
                     }
                 }
             } else {
+                //zoznam knih s databazy
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(AppPadding.small)

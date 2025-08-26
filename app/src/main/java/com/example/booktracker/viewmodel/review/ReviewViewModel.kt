@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 
 class ReviewViewModel(private val repo: ReviewRepository) : ViewModel() {
 
+    //oddeluje ui od databazy
     fun getReviewForBook(bookId: Long): Flow<ReviewEntity?> {
         return repo.getReviewForBook(bookId)
     }

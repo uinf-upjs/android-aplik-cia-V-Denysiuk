@@ -1,4 +1,4 @@
-package com.example.booktracker.ui.screens.components
+package com.example.booktracker.ui.screens.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*

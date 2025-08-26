@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.booktracker.R
-import com.example.booktracker.Screen
+import com.example.booktracker.ui.screens.navigation.Screen
 import com.example.booktracker.ui.screens.components.BookCard
 import com.example.booktracker.ui.theme.AppPadding
 import com.example.booktracker.viewmodel.book.BookViewModel

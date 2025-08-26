@@ -1,4 +1,4 @@
-package com.example.booktracker
+package com.example.booktracker.ui.screens.navigation
 
 sealed class Screen(val route: String) {
     object BookList : Screen("book_list")
@@ -12,6 +12,5 @@ sealed class Screen(val route: String) {
     object EditReview : Screen("edit_review/{bookId}") {
         fun createRoute(bookId: Long) = "edit_review/$bookId"
     }
-
 
 }
