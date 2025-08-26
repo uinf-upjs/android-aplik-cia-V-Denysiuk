@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">BookTracker</string>
+
+
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="update">Update</string>
+    <string name="edit_review">Edit Review</string>
+    <string name="add_book">Add Book</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="search_hint">Search by title</string>
+    <string name="review_saved">Review saved</string>
+
+
+    <string name="add_book_title">Add Book</string>
+    <string name="edit_book_title">Edit Book</string>
+    <string name="book_detail_title">Book Detail</string>
+
+
+    <string name="title_label">Title *</string>
+    <string name="author_label">Author</string>
+    <string name="country_label">Country</string>
+    <string name="year_label">Year</string>
+    <string name="language_label">Language</string>
+    <string name="pages_label">Pages</string>
+    <string name="rating_label">Your Rating:</string>
+    <string name="review_label">Review:</string>
+    <string name="progress_label">Progress: %1$d%%</string>
+    <string name="editing_review_for">Editing review for: %1$s</string>
+    <string name="pages_progress">%1$d / %2$d pages</string>
+
+
+    <string name="unknown">Unknown</string>
+    <string name="delete_dialog_title">Are you sure?</string>
 </resources>
+

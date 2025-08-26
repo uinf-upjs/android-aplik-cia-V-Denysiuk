@@ -3,11 +3,18 @@ package com.example.booktracker.data.local
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.booktracker.data.local.book.*
+import com.example.booktracker.data.local.review.ReviewDao
+import com.example.booktracker.data.local.review.ReviewEntity
 import kotlinx.coroutines.*
 
-@Database(entities = [BookEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [BookEntity::class, ReviewEntity::class],
+    version = 2,
+    exportSchema = false)
 abstract class BookDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
+    abstract fun reviewDao(): ReviewDao
 
     companion object {
         @Volatile private var INSTANCE: BookDatabase? = null

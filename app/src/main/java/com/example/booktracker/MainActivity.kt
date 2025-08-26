@@ -9,7 +9,8 @@ import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.example.booktracker.ui.screens.*
 import com.example.booktracker.ui.theme.BookTrackerTheme
-import com.example.booktracker.viewmodel.*
+import com.example.booktracker.viewmodel.book.*
+import com.example.booktracker.viewmodel.review.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,8 +18,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val app = application as BookApplication
-        val factory = BookViewModelFactory(app.repository)
-        val viewModel = ViewModelProvider(this, factory)[BookViewModel::class.java]
+        //book
+        val bookViewModelFactory = BookViewModelFactory(app.bookRepository)
+        val bookViewModel = ViewModelProvider(this, bookViewModelFactory)[BookViewModel::class.java]
+
+        //review
+        val reviewViewModelFactory = ReviewViewModelFactory(app.reviewRepository)
+        val reviewViewModel =
+            ViewModelProvider(this, reviewViewModelFactory)[ReviewViewModel::class.java]
         setContent {
             BookTrackerTheme {
                 val navController = rememberNavController()
@@ -27,18 +34,39 @@ class MainActivity : ComponentActivity() {
                     startDestination = Screen.BookList.route
                 ) {
                     composable(Screen.BookList.route) {
-                        BookListScreen(navController, viewModel)
+                        BookListScreen(navController, bookViewModel)
                     }
                     composable(Screen.AddBook.route) {
-                        AddBookScreen(navController, viewModel)
+                        AddBookScreen(navController, bookViewModel)
                     }
                     composable(
                         Screen.EditBook.route,
                         listOf(navArgument("bookId") { type = NavType.LongType })
                     ) { backStackEntry ->
                         val bookId = backStackEntry.arguments?.getLong("bookId") ?: 0L
-                        EditBookScreen(navController, viewModel, bookId)
+                        EditBookScreen(
+                            navController, bookViewModel, bookId
+                        )
                     }
+                    composable(
+                        Screen.BookDetail.route,
+                        listOf(navArgument("bookId") { type = NavType.LongType })
+                    ) { backStackEntry ->
+                        val bookId = backStackEntry.arguments?.getLong("bookId") ?: 0L
+                        BookDetailScreen(
+                            navController, bookId, bookViewModel, reviewViewModel
+                        )
+                    }
+                    composable(
+                        Screen.EditReview.route,
+                        listOf(navArgument("bookId") { type = NavType.LongType })
+                    ) { backStackEntry ->
+                        val bookId = backStackEntry.arguments?.getLong("bookId") ?: 0L
+                        EditReviewScreen(
+                            navController, bookId, bookViewModel, reviewViewModel
+                        )
+                    }
+
                 }
             }
         }

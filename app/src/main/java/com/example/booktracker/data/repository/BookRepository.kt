@@ -1,7 +1,7 @@
 package com.example.booktracker.data.repository
 
-import com.example.booktracker.data.local.BookDao
-import com.example.booktracker.data.local.BookEntity
+import com.example.booktracker.data.local.book.BookDao
+import com.example.booktracker.data.local.book.BookEntity
 import kotlinx.coroutines.flow.Flow
 
 class BookRepository(private val dao: BookDao) {

@@ -1,5 +1,6 @@
 package com.example.booktracker.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.icons.Icons
@@ -7,11 +8,13 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.booktracker.R
 import com.example.booktracker.Screen
-import com.example.booktracker.data.local.BookEntity
+import com.example.booktracker.data.local.book.BookEntity
 import com.example.booktracker.ui.theme.*
-import com.example.booktracker.viewmodel.BookViewModel
+import com.example.booktracker.viewmodel.book.BookViewModel
 
 @Composable
 fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
@@ -25,7 +28,7 @@ fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { navController.navigate(Screen.AddBook.route) }) {
-                Icon(Icons.Default.Add, contentDescription = "Add Book")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_book))
             }
         }
     ) { paddingValues ->
@@ -38,7 +41,7 @@ fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
-                label = { Text("Search by title") },
+                label = { Text(stringResource(R.string.search_hint))  },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -51,6 +54,9 @@ fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
                 items(filteredBooks) { book ->
                     BookCard(
                         book,
+                        onCardClick = {selectedBook ->
+                            navController.navigate(Screen.BookDetail.createRoute(selectedBook.id))
+                        },
                         onEditClick = { selectedBook ->
                             navController.navigate(Screen.EditBook.createRoute(selectedBook.id))
 
@@ -69,12 +75,15 @@ fun BookListScreen(navController: NavController, viewModel: BookViewModel) {
 fun BookCard(
     book: BookEntity,
     onEditClick: (BookEntity) -> Unit,
-    onDeleteClick: (BookEntity) -> Unit
+    onDeleteClick: (BookEntity) -> Unit,
+    onCardClick: (BookEntity) -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onCardClick(book) },
         elevation = CardDefaults.cardElevation(AppSize.cardElevation)
     ) {
         Column(
@@ -85,15 +94,15 @@ fun BookCard(
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = "Author: ${book.author}",
+                text = "${stringResource(R.string.author_label)}: ${book.author}",
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Country: ${book.country}",
+                text = "${stringResource(R.string.country_label)}: ${book.country}",
                 style = MaterialTheme.typography.bodySmall
             )
             Text(
-                text = "Year: ${book.year}",
+                text = "${stringResource(R.string.year_label)}: ${book.year}",
                 style = MaterialTheme.typography.bodySmall
             )
 
@@ -107,7 +116,7 @@ fun BookCard(
                 IconButton(onClick = { onEditClick(book) }) {
                     Icon(
                         imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit Book",
+                        contentDescription = stringResource(R.string.update),
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -115,7 +124,7 @@ fun BookCard(
                 IconButton(onClick = { showDialog = true }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete Book",
+                        contentDescription = stringResource(R.string.delete),
                         tint = MaterialTheme.colorScheme.error
                     )
                 }
@@ -124,7 +133,7 @@ fun BookCard(
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
-                    title = { Text("Are you sure?") },
+                    title = { Text(stringResource(R.string.delete_dialog_title)) },
                     confirmButton = {
                         TextButton(
                             onClick = {
@@ -132,12 +141,12 @@ fun BookCard(
                                 showDialog = false
                             }
                         ) {
-                            Text("Yes")
+                            Text(stringResource(R.string.yes))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = { showDialog = false }) {
-                            Text("No")
+                            Text(stringResource(R.string.no))
                         }
                     }
                 )

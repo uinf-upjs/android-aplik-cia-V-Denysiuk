@@ -106,8 +106,13 @@
     <id name="view_tree_view_model_store_owner"/>
     <item name="wrapped_composition_tag" type="id"/>
     <integer name="status_bar_notification_info_maxnum">999</integer>
+    <string name="add_book">Add Book</string>
+    <string name="add_book_title">Add Book</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
     <string name="app_name">BookTracker</string>
+    <string name="author_label">Author</string>
+    <string name="back">Back</string>
+    <string name="book_detail_title">Book Detail</string>
     <string name="call_notification_answer_action">Answer</string>
     <string name="call_notification_answer_video_action">Video</string>
     <string name="call_notification_decline_action">Decline</string>
@@ -117,11 +122,18 @@
     <string name="call_notification_screening_text">Screening an incoming call</string>
     <string name="close_drawer">"Close navigation menu"</string>
     <string name="close_sheet">"Close sheet"</string>
+    <string name="country_label">Country</string>
     <string name="default_error_message">"Invalid input"</string>
     <string name="default_popup_window_title" ns1:ignore="ExtraTranslation">"Pop-Up Window"</string>
+    <string name="delete">Delete</string>
+    <string name="delete_dialog_title">Are you sure?</string>
     <string name="dropdown_menu">"Dropdown menu"</string>
+    <string name="edit_book_title">Edit Book</string>
+    <string name="edit_review">Edit Review</string>
+    <string name="editing_review_for">Editing review for: %1$s</string>
     <string name="in_progress">In progress</string>
     <string name="indeterminate">Partially checked</string>
+    <string name="language_label">Language</string>
     <string name="m3c_bottom_sheet_collapse_description">Collapse bottom sheet</string>
     <string name="m3c_bottom_sheet_dismiss_description">Dismiss bottom sheet</string>
     <string name="m3c_bottom_sheet_drag_handle_description">Drag handle</string>
@@ -183,9 +195,18 @@
     <string name="m3c_tooltip_long_press_label">Show tooltip</string>
     <string name="m3c_tooltip_pane_description">Tooltip</string>
     <string name="navigation_menu">"Navigation menu"</string>
+    <string name="no">No</string>
     <string name="not_selected">Not selected</string>
+    <string name="pages_label">Pages</string>
+    <string name="pages_progress">%1$d / %2$d pages</string>
+    <string name="progress_label">Progress: %1$d%%</string>
     <string name="range_end">"Range end"</string>
     <string name="range_start">"Range start"</string>
+    <string name="rating_label">Your Rating:</string>
+    <string name="review_label">Review:</string>
+    <string name="review_saved">Review saved</string>
+    <string name="save">Save</string>
+    <string name="search_hint">Search by title</string>
     <string name="selected">Selected</string>
     <string name="state_empty">Empty</string>
     <string name="state_off">Off</string>
@@ -194,8 +215,13 @@
     <string name="switch_role">Switch</string>
     <string name="tab">Tab</string>
     <string name="template_percent"><ns2:g id="percentage">%1$d</ns2:g> percent.</string>
+    <string name="title_label">Title *</string>
     <string name="tooltip_description">tooltip</string>
     <string name="tooltip_label">show tooltip</string>
+    <string name="unknown">Unknown</string>
+    <string name="update">Update</string>
+    <string name="year_label">Year</string>
+    <string name="yes">Yes</string>
     <style name="DialogWindowTheme">
         <item name="android:windowClipToOutline">false</item>
     </style>
@@ -254,23 +280,14 @@
         <attr format="reference" name="fontProviderCerts"/>
         
         <attr name="fontProviderFetchStrategy">
-            <!-- The blocking font fetch works as follows.
-              First, check the local cache, then if the requested font is not cached, request the
-              font from the provider and wait until it is finished.  You can change the length of
-              the timeout by modifying fontProviderFetchTimeout.  If the timeout happens, the
-              default typeface will be used instead. -->
+            
             <enum name="blocking" value="0"/>
-            <!-- The async font fetch works as follows.
-              First, check the local cache, then if the requeted font is not cached, trigger a
-              request the font and continue with layout inflation. Once the font fetch succeeds, the
-              target text view will be refreshed with the downloaded font data. The
-              fontProviderFetchTimeout will be ignored if async loading is specified. -->
+            
             <enum name="async" value="1"/>
         </attr>
         
         <attr format="integer" name="fontProviderFetchTimeout">
-            <!-- A special value for the timeout. In this case, the blocking font fetching will not
-              timeout and wait until a reply is received from the font provider. -->
+            
             <enum name="forever" value="-1"/>
         </attr>
         

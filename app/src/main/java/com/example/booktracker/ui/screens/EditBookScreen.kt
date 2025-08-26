@@ -6,9 +6,11 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.booktracker.R
 import com.example.booktracker.ui.theme.AppPadding
-import com.example.booktracker.viewmodel.BookViewModel
+import com.example.booktracker.viewmodel.book.BookViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,10 +45,13 @@ fun EditBookScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("EDIT BOOK") },
+                title = { Text(stringResource(R.string.edit_book_title)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = stringResource(R.string.back)
+                        )
                     }
                 }
             )
@@ -62,50 +67,56 @@ fun EditBookScreen(
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text("Title *") },
+                label = { Text(stringResource(R.string.title_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = author,
                 onValueChange = { author = it },
-                label = { Text("Author") },
+                label = { Text(stringResource(R.string.author_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = country,
                 onValueChange = { country = it },
-                label = { Text("Country") },
+                label = { Text(stringResource(R.string.country_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = year,
                 onValueChange = { year = it },
-                label = { Text("Year") },
+                label = { Text(stringResource(R.string.year_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = language,
                 onValueChange = { language = it },
-                label = { Text("Language") },
+                label = { Text(stringResource(R.string.language_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = pages,
                 onValueChange = { pages = it },
-                label = { Text("Pages") },
+                label = { Text(stringResource(R.string.pages_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
+
+            val authorText = if (author.isBlank()) stringResource(R.string.unknown) else author
+            val countryText = if (country.isBlank()) stringResource(R.string.unknown) else country
+            val yearText = if (year.isBlank()) stringResource(R.string.unknown) else year
+            val languageText = if (language.isBlank()) stringResource(R.string.unknown) else language
+            val pagesText = if (pages.isBlank()) stringResource(R.string.unknown) else pages
 
             Button(
                 onClick = {
                     if (book != null) {
                         val updatedBook = book.copy(
                             title = title,
-                            author = author.ifBlank { "Unknown" },
-                            country = country.ifBlank { "Unknown" },
-                            year = year.ifBlank { "Unknown" },
-                            language = language.ifBlank { "Unknown" },
-                            pages = pages.ifBlank { "Unknown" }
+                            author = authorText,
+                            country = countryText,
+                            year = yearText,
+                            language = languageText,
+                            pages = pagesText
                         )
                         viewModel.updateBook(updatedBook)
                         navController.popBackStack()
@@ -114,7 +125,7 @@ fun EditBookScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = isUpdateEnabled
             ) {
-                Text("Update")
+                Text(stringResource(R.string.update))
             }
         }
     }
